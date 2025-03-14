@@ -7,15 +7,27 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
-    public function index()
-    {
-        $countries = Country::all();
-        return response()->json($countries);
-    }
+    // ...existing code...
 
-    public function show($id)
+    public function store(Request $request)
     {
-        $country = Country::findOrFail($id);
-        return response()->json($country);
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255|unique:countries',
+            'capital' => 'required|string|max:255',
+            'population' => 'required|integer',
+            'continent' => 'required|string|max:255',
+            'sub_region' => 'nullable|string|max:255',
+            'flag_url' => 'required|string|max:255',
+            'motto' => 'nullable|string|max:255',
+            'languages' => 'nullable|array',
+            'additional_info' => 'nullable|string'
+        ]);
+
+        $country = Country::create($validatedData);
+
+        return response()->json([
+            'message' => 'Country created successfully',
+            'data' => $country
+        ], 201);
     }
 }

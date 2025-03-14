@@ -14,4 +14,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::get('/countries', [CountryController::class, 'index']);
     Route::get('/countries/{id}', [CountryController::class, 'show']);
+    
+    Route::middleware('auth:sanctum')->group(function () {
+        // ...existing routes...
+        Route::post('/countries', [CountryController::class, 'store']);
+    });
 });
