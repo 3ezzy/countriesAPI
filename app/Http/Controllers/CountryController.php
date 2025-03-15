@@ -30,4 +30,14 @@ class CountryController extends Controller
             'data' => $country
         ], 201);
     }
+
+    public function destroy($id)
+{
+    $country = Country::findOrFail($id);
+    $country->delete();
+
+    return response()->json([
+        'message' => 'Country deleted successfully'
+    ], 200);
+}
 }
